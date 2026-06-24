@@ -6,7 +6,7 @@ import IntelligencePanel from './IntelligencePanel';
 
 const DOMAINS = skillNodes.filter(n => n.parentId === 'root');
 const RADIUS = 1000; // Scaled up to fit new massive viewBox comfortably
-const STROKE_WIDTH = 80;
+const STROKE_WIDTH = 200; // Massively thickened for much easier hovering
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 const SEGMENT_SIZE = CIRCUMFERENCE / DOMAINS.length;
 const GAP = 12; // Gap in dash array
@@ -38,6 +38,52 @@ const KnowledgeMatrix: React.FC = () => {
           preserveAspectRatio="xMidYMid meet"
           className="w-full h-full"
         >
+          {/* --- AMBIENT HUD ELEMENTS --- */}
+          {/* Faint Background Grid */}
+          <defs>
+            <pattern id="grid" width="200" height="200" patternUnits="userSpaceOnUse">
+              <circle cx="2" cy="2" r="2" fill="#1e293b" opacity="0.6" />
+            </pattern>
+          </defs>
+          <rect x="-4500" y="-3000" width="9000" height="6000" fill="url(#grid)" />
+
+          {/* Outer Rotating HUD Rings */}
+          <motion.circle 
+            cx={0} cy={0} r={RADIUS + 250} 
+            fill="none" stroke="#1e293b" strokeWidth="10" 
+            strokeDasharray="60 120"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 150, repeat: Infinity, ease: "linear" }}
+          />
+          <motion.circle 
+            cx={0} cy={0} r={RADIUS + 350} 
+            fill="none" stroke="#00FFB3" strokeWidth="4" strokeOpacity="0.2"
+            strokeDasharray="200 400 100 200"
+            animate={{ rotate: -360 }}
+            transition={{ duration: 200, repeat: Infinity, ease: "linear" }}
+          />
+          
+          {/* Inner Rotating HUD Ring */}
+          <motion.circle 
+            cx={0} cy={0} r={RADIUS - 150} 
+            fill="none" stroke="#1e293b" strokeWidth="10" 
+            strokeDasharray="30 60"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
+          />
+
+          {/* Ambient Hex Data Blocks */}
+          <g className="pointer-events-none" fill="#1e293b" fontSize="60" fontFamily="monospace" opacity="0.8">
+            <text x="-4000" y="-2500">SYS_MEM: 0x8F4C</text>
+            <text x="-4000" y="-2400">NET_LNK: ESTABLISHED</text>
+            <text x="2800" y="-2500">TRK_ID: 99482.11</text>
+            <text x="2800" y="-2400">SYNC_RT: 99.9%</text>
+            <text x="-4000" y="2500">SIG_STR: STRONG</text>
+            <text x="-4000" y="2600">ENC_KEY: VALID</text>
+            <text x="2800" y="2500">OP_MODE: OVERRIDE</text>
+          </g>
+          {/* ------------------------------ */}
+
           {/* Center Donut Graphic */}
           <g className="drop-shadow-[0_0_15px_rgba(0,0,0,0.8)]">
             {segments.map((segment) => {
@@ -50,13 +96,13 @@ const KnowledgeMatrix: React.FC = () => {
                   r={RADIUS}
                   fill="none"
                   stroke={segment.color || '#00FFB3'}
-                  strokeWidth={isActive ? STROKE_WIDTH + 8 : STROKE_WIDTH}
+                  strokeWidth={isActive ? STROKE_WIDTH + 40 : STROKE_WIDTH}
                   strokeDasharray={`${SEGMENT_SIZE - GAP} ${CIRCUMFERENCE}`}
                   strokeDashoffset={segment.offset}
                   className="cursor-pointer"
                   onMouseEnter={() => setActiveDomainId(segment.id)}
                   animate={{
-                    strokeWidth: isActive ? STROKE_WIDTH + 8 : STROKE_WIDTH,
+                    strokeWidth: isActive ? STROKE_WIDTH + 40 : STROKE_WIDTH,
                     filter: isActive ? `drop-shadow(0 0 15px ${segment.color})` : 'drop-shadow(0 0 0px transparent)',
                     opacity: activeDomainId && !isActive ? 0.3 : 1
                   }}

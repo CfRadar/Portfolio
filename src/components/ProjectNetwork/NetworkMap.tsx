@@ -56,17 +56,17 @@ const NetworkMap: React.FC<NetworkMapProps> = ({ projects, selectedProject, onSe
   const containerRef = useRef<HTMLDivElement>(null);
   
   return (
-    <div className="relative w-full max-w-sm" ref={containerRef}>
-      <div className="flex flex-col gap-4 relative z-10">
+    <div className="relative w-full max-w-sm h-full" ref={containerRef}>
+      <div className="flex flex-col gap-4 relative z-10 h-full">
         {projects.map((project) => {
           const isSelected = selectedProject.id === project.id;
           
           return (
-            <div key={project.id} className="relative group">
+            <div key={project.id} className="relative group flex-1 flex">
               {/* Node Button */}
               <button
                 onClick={() => onSelect(project)}
-                className={`w-full text-left relative transition-all duration-200 border ${
+                className={`w-full h-full text-left relative transition-all duration-200 border ${
                   isSelected 
                     ? 'border-[#00C8FF] bg-[#00C8FF]/5' 
                     : 'border-[#1e293b] hover:border-[#1e293b]/80 bg-transparent'
