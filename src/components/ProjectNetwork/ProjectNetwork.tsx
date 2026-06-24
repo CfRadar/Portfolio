@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import { projectsData } from './data';
 import type { ProjectData } from './data';
 import NetworkMap from './NetworkMap';
@@ -9,7 +8,7 @@ const ProjectNetwork: React.FC = () => {
   const [selectedProject, setSelectedProject] = useState<ProjectData>(projectsData[0]);
 
   return (
-    <section className="relative w-full h-screen bg-transparent text-white font-sans overflow-hidden flex flex-col pt-16">
+    <section className="relative w-full h-screen bg-[#040712] border-y border-[#1e293b]/50 text-white font-sans overflow-hidden flex flex-col pt-16">
       {/* Header */}
       <div className="relative z-10 w-full max-w-[1600px] mx-auto px-6 lg:px-12 flex-shrink-0 mb-4">
         <h2 className="text-2xl font-mono font-semibold tracking-widest text-white mb-1 flex items-center gap-3">
