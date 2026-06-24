@@ -18,6 +18,11 @@ const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
   ];
 
   useEffect(() => {
+    // Force scroll to top on reload so we don't start midway down the page
+    window.scrollTo(0, 0);
+    // Disable scrolling while booting
+    document.body.style.overflow = 'hidden';
+
     let currentIndex = 0;
     
     const interval = setInterval(() => {
@@ -31,7 +36,11 @@ const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
       }
     }, 400);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      // Re-enable scrolling when boot is done
+      document.body.style.overflow = 'unset';
+    };
   }, [onComplete]);
 
   return (
@@ -39,9 +48,9 @@ const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
       initial={{ opacity: 1 }}
       exit={{ opacity: 0, scale: 0.95, filter: 'blur(10px)' }}
       transition={{ duration: 0.6, ease: "easeInOut" }}
-      className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none"
+      className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none bg-[#0b0e14]"
     >
-      <div className="bg-[#0b0e14]/90 backdrop-blur-md border border-[#1e293b] p-8 rounded-lg w-full max-w-lg shadow-[0_0_50px_rgba(0,255,179,0.1)] font-mono text-[#00FFB3] text-sm md:text-base">
+      <div className="border border-[#1e293b] p-8 rounded-lg w-full max-w-lg shadow-[0_0_50px_rgba(0,255,179,0.1)] font-mono text-[#00FFB3] text-sm md:text-base">
         {lines.map((line, i) => (
           <motion.div
             key={i}
