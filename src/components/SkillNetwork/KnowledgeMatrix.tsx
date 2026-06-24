@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { skillNodes } from './data';
 import MatrixNode from './MatrixNode';
-import IntelligencePanel from './IntelligencePanel';
+import IntelligencePanel from './IntelligencePanel'; // HUD Panel Component
 
 const DOMAINS = skillNodes.filter(n => n.parentId === 'root');
 const RADIUS = 1000; // Scaled up to fit new massive viewBox comfortably
