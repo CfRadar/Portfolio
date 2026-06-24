@@ -1,3 +1,14 @@
+import React from 'react';
+import N1 from '../../assets/N1.png';
+import N2 from '../../assets/N2.png';
+import T1 from '../../assets/T1.png';
+import T2 from '../../assets/T2.png';
+import Y1 from '../../assets/Y1.jpg';
+import Y2 from '../../assets/Y2.jpg';
+import S1 from '../../assets/S1.png';
+import S2 from '../../assets/S2.png';
+import S3 from '../../assets/S3.png';
+
 export interface TimelinePhase {
   id: string;
   phaseName: string;
@@ -18,7 +29,7 @@ export interface ProjectData {
   name: string;
   icon: string;
   status: string;
-  impact: 'High' | 'Medium' | 'Very High';
+  impact: 'High' | 'Medium' | 'Very High' | 'Critical';
   description: string;
   techStack: string[];
   features: string[];
@@ -34,161 +45,125 @@ export interface ProjectData {
 
 export const projectsData: ProjectData[] = [
   {
-    id: "food-redistribution",
-    nodeId: "//node_01",
-    name: "FOOD REDISTRIBUTION AI",
-    icon: "🍔",
-    status: "DEPLOYED",
+    id: 'nebula-os',
+    nodeId: '//os_01',
+    name: 'Nebula OS',
+    icon: '🌐',
+    status: 'ACTIVE_SYSTEM',
+    impact: 'Critical',
+    description: 'Browser based OS sandbox, giving the ability to make multiple file imports for code. It features a fully functional terminal, basic file structure management, and an integrated code compiler with customizable settings.',
+    techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Node.js', 'WebContainers'],
+    features: [
+      'Full browser-based OS sandbox environment',
+      'Multi-file import support for complex codebases',
+      'Integrated command-line terminal',
+      'Virtual file system management',
+      'In-browser code compilation and execution'
+    ],
+    challenges: [
+      'Maintaining terminal state and process isolation',
+      'Handling secure cross-origin file imports',
+      'Optimizing performance for in-browser compilation'
+    ],
+    architecture: [
+      { id: 'ui', label: 'Nebula Desktop (React/TS)', type: 'client' },
+      { id: 'fs', label: 'Virtual File System', type: 'client' },
+      { id: 'term', label: 'Terminal Emulator (xterm.js)', type: 'client' },
+      { id: 'compiler', label: 'Execution Sandbox (Node.js)', type: 'server' }
+    ],
+    timeline: [
+      { id: 't1', phaseName: 'INCEPTION', date: '01 Nov 2023', description: 'Defined OS architecture', status: 'completed' },
+      { id: 't2', phaseName: 'CORE FS', date: '15 Dec 2023', description: 'Built virtual file system', status: 'completed' },
+      { id: 't3', phaseName: 'TERMINAL', date: '10 Jan 2024', description: 'Integrated xterm.js', status: 'completed' },
+      { id: 't4', phaseName: 'COMPILER', date: '05 Feb 2024', description: 'Added code execution', status: 'completed' },
+      { id: 't5', phaseName: 'BETA', date: 'Current', description: 'Polishing sandbox UI', status: 'current' }
+    ],
+    links: { github: 'https://github.com/Aarya48/NebulaOS' },
+    screenshots: [N1, N2]
+  },
+  {
+    id: "traffic-rl",
+    nodeId: "//ml_02",
+    name: "Traffic Light RL Environment",
+    icon: "🚦",
+    status: "TRAINED_MODEL",
     impact: "High",
-    description: "A community platform connecting local restaurants with food banks to reduce waste, powered by real-time logistics and predictive routing.",
-    techStack: ["Next.js", "MongoDB", "Express", "Google Maps API", "Redis"],
+    description: "An ML Python script for an AI agent to judge which signal to open according to traffic density, maintaining fairness amongst lanes and optimizing vehicle throughput.",
+    techStack: ["Python", "OpenAI Gym", "Hugging Face", "Docker"],
     features: [
-      "Real-time Inventory Sync",
-      "Volunteer Matching Engine",
-      "Route Optimization Algorithm",
-      "Predictive Waste Analytics"
+      "Custom Reinforcement Learning environment",
+      "Dynamic state space evaluation of traffic density",
+      "Fairness-focused reward function",
+      "Containerized deployment architecture"
     ],
     challenges: [
-      "Handling real-time geolocation of drivers",
-      "Scaling the websocket connections for live updates",
-      "Optimizing complex geospatial database queries"
+      "Designing a reward function that balances wait times",
+      "Simulating realistic continuous traffic flow",
+      "Optimizing the state observation arrays"
     ],
-    architecture: [
-      { id: 'app', label: 'Next.js Frontend', type: 'client' },
-      { id: 'gateway', label: 'API Gateway', type: 'api' },
-      { id: 'engine', label: 'Matching Engine', type: 'server' },
-      { id: 'db', label: 'Geo MongoDB', type: 'database' }
-    ],
-    timeline: [
-      { id: 't1', phaseName: 'INCEPTION', date: '12 May 2024', description: 'Idea & Research', status: 'completed' },
-      { id: 't2', phaseName: 'PLANNING', date: '18 May 2024', description: 'Tech Stack & Design', status: 'completed' },
-      { id: 't3', phaseName: 'DEVELOPMENT', date: '25 May 2024', description: 'Building Core Features', status: 'completed' },
-      { id: 't4', phaseName: 'TESTING', date: '02 Jun 2024', description: 'Testing & Optimization', status: 'completed' },
-      { id: 't5', phaseName: 'DEPLOYED', date: '08 Jun 2024', description: 'Live & Iterating', status: 'completed' }
-    ],
-    links: { live: "https://example.com", github: "https://github.com/CfRadar" },
+    architecture: [],
+    timeline: [],
+    links: { github: "https://github.com/CfRadar/TrafficLightRLEnvironment" },
     screenshots: [
-      "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80&w=800"
+      T1,
+      T2
     ]
   },
   {
-    id: "ai-agent-builder",
-    nodeId: "//node_02",
-    name: "AI AGENT BUILDER",
-    icon: "🤖",
-    status: "BETA",
-    impact: "Very High",
-    description: "A node-based orchestration tool for designing, testing, and deploying specialized multi-agent LLM systems with shared memory.",
-    techStack: ["React Flow", "Python", "FastAPI", "OpenAI API", "LangChain"],
-    features: [
-      "Visual Node Editor",
-      "Real-time Agent Memory Inspector",
-      "Custom Tool Creation",
-      "Streaming Response Viewer"
-    ],
-    challenges: [
-      "Managing infinite loops in agent reasoning",
-      "Syncing complex node states with the backend engine",
-      "Handling rate limits gracefully"
-    ],
-    architecture: [
-      { id: 'ui', label: 'React Flow Canvas', type: 'client' },
-      { id: 'ws', label: 'WebSocket Server', type: 'api' },
-      { id: 'orchestrator', label: 'Agent Orchestrator', type: 'ai' },
-      { id: 'vector', label: 'Vector DB', type: 'database' }
-    ],
-    timeline: [
-      { id: 't1', phaseName: 'INCEPTION', date: '01 Jul 2024', description: 'Agent Theory', status: 'completed' },
-      { id: 't2', phaseName: 'PROTOTYPE', date: '15 Jul 2024', description: 'CLI Version', status: 'completed' },
-      { id: 't3', phaseName: 'UI DESIGN', date: '01 Aug 2024', description: 'Canvas Setup', status: 'completed' },
-      { id: 't4', phaseName: 'INTEGRATION', date: '10 Aug 2024', description: 'Connecting LLMs', status: 'completed' },
-      { id: 't5', phaseName: 'BETA RELEASE', date: 'Current', description: 'User Testing', status: 'current' }
-    ],
-    links: { github: "https://github.com/CfRadar" },
-    screenshots: [
-      "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800"
-    ]
-  },
-  {
-    id: "music-streaming",
+    id: "y-melodies",
     nodeId: "//node_03",
-    name: "MUSIC STREAMING PLATFORM",
+    name: "Y-Melodies",
     icon: "🎧",
     status: "DEPLOYED",
-    impact: "Medium",
-    description: "A full-stack music streaming platform with YouTube API integration, real-time queue management, and personalized recommendations.",
-    techStack: ["React", "TypeScript", "TailwindCSS", "Node.js", "MongoDB", "YouTube API"],
+    impact: "High",
+    description: "An ad-free music streaming platform utilizing the YouTube API for vast music access, replicating premium features found in top-tier apps like Spotify.",
+    techStack: ["React", "TypeScript", "Tailwind CSS", "Node.js", "YouTube API"],
     features: [
-      "YouTube API Integration",
+      "Extensive ad-free music library",
       "Real-time Queue Synchronization",
-      "Personalized Recommendations",
-      "User Authentication (JWT)"
+      "Custom Playlists and Favorites",
+      "Seamless playback using YouTube Data"
     ],
     challenges: [
-      "Handling YouTube API rate limits",
-      "Real-time queue synchronization",
-      "Recommendation system accuracy",
-      "Optimizing performance for smooth streaming"
+      "Handling YouTube API rate limits efficiently",
+      "Maintaining smooth background playback",
+      "Optimizing search queries and latency"
     ],
-    architecture: [
-      { id: 'ui', label: 'React Client', type: 'client' },
-      { id: 'api', label: 'Express API', type: 'api' },
-      { id: 'yt', label: 'YouTube Service', type: 'server' },
-      { id: 'db', label: 'User Data DB', type: 'database' }
-    ],
-    timeline: [
-      { id: 't1', phaseName: 'INCEPTION', date: '12 May 2024', description: 'Idea & Research', status: 'completed' },
-      { id: 't2', phaseName: 'PLANNING', date: '18 May 2024', description: 'Tech Stack & Design', status: 'completed' },
-      { id: 't3', phaseName: 'DEVELOPMENT', date: '25 May 2024', description: 'Building Core Features', status: 'completed' },
-      { id: 't4', phaseName: 'TESTING', date: '02 Jun 2024', description: 'Testing & Optimization', status: 'completed' },
-      { id: 't5', phaseName: 'DEPLOYED', date: '08 Jun 2024', description: 'Live & Iterating', status: 'completed' }
-    ],
-    links: { live: "https://example.com", github: "https://github.com/CfRadar" },
+    architecture: [],
+    timeline: [],
+    links: { github: "https://github.com/CfRadar/Y-Melody" },
     screenshots: [
-      "https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=800"
+      Y1,
+      Y2
     ]
   },
   {
-    id: "hostel-delivery",
+    id: "soul-duel",
     nodeId: "//node_04",
-    name: "HOSTEL DELIVERY SYSTEM",
-    icon: "📦",
-    status: "MAINTENANCE",
-    impact: "Medium",
-    description: "An internal campus app for ordering late-night snacks directly to dorm rooms, featuring driver tracking and split payments.",
-    techStack: ["React Native", "Firebase", "Stripe", "Node.js"],
+    name: "Soul Duel",
+    icon: "🎮",
+    status: "ACTIVE",
+    impact: "High",
+    description: "A competitive 2-player bullet-hell game inspired by Undertale. Features a robust progression system, powerups, 3 distinct boss fights, 2 playstyles, and a comprehensive rank/rating system. Also includes a fully playable single-player mode.",
+    techStack: ["React", "Node.js", "HTML5 Canvas"],
     features: [
-      "Live Order Tracking",
-      "Dorm-specific Routing",
-      "Split Payments",
-      "Vendor Dashboard"
+      "Competitive 2-player & Single-player modes",
+      "3 unique boss encounters with distinct attack patterns",
+      "Rankings, ratings, and progression system",
+      "Dynamic powerup mechanics and 2 playstyles"
     ],
     challenges: [
-      "Handling highly concurrent order spikes at midnight",
-      "Ensuring accurate dorm-room mapping where standard GPS fails"
+      "Optimizing HTML5 Canvas rendering for smooth bullet-hell performance",
+      "Synchronizing high-speed gameplay between two players",
+      "Balancing boss patterns for fairness in competitive mode"
     ],
-    architecture: [
-      { id: 'app', label: 'Mobile App', type: 'client' },
-      { id: 'auth', label: 'Firebase Auth', type: 'api' },
-      { id: 'db', label: 'Realtime DB', type: 'database' },
-      { id: 'pay', label: 'Stripe Webhooks', type: 'server' }
-    ],
-    timeline: [
-      { id: 't1', phaseName: 'INCEPTION', date: '10 Jan 2024', description: 'Problem Scope', status: 'completed' },
-      { id: 't2', phaseName: 'DESIGN', date: '20 Jan 2024', description: 'Figma Mockups', status: 'completed' },
-      { id: 't3', phaseName: 'DEV', date: '15 Feb 2024', description: 'React Native Build', status: 'completed' },
-      { id: 't4', phaseName: 'LAUNCH', date: '01 Mar 2024', description: 'Campus Beta', status: 'completed' },
-      { id: 't5', phaseName: 'STABLE', date: 'Current', description: 'Maintenance Mode', status: 'completed' }
-    ],
-    links: { github: "https://github.com/CfRadar" },
+    architecture: [],
+    timeline: [],
+    links: { github: "https://github.com/CfRadar/soul-frontend" },
     screenshots: [
-      "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=80&w=800"
+      S1,
+      S2,
+      S3
     ]
   }
 ];

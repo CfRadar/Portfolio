@@ -17,9 +17,9 @@ const ScreenshotCarousel: React.FC<ScreenshotCarouselProps> = ({ images }) => {
   }, [images.length]);
 
   return (
-    <div className="flex flex-col gap-4 w-full h-full">
+    <div className="flex flex-col gap-3 w-full h-full">
       {/* Main Large Image */}
-      <div className="relative w-full h-64 md:h-80 lg:h-96 border border-[#1e293b] rounded overflow-hidden bg-[#03050c] group">
+      <div className="relative w-full h-48 md:h-56 xl:h-64 border border-[#1e293b] rounded overflow-hidden bg-[#03050c] group">
         <AnimatePresence mode="wait">
           <motion.img
             key={currentIndex}
