@@ -34,7 +34,7 @@ const KnowledgeMatrix: React.FC = () => {
       {/* Central SVG Viewport. Scales perfectly up to screen size, keeping nodes and text perfectly aligned. */}
       <div className="relative w-full h-full flex items-center justify-center p-4">
         <svg 
-          viewBox="-3000 -3000 6000 6000" 
+          viewBox="-4500 -3000 9000 6000" 
           preserveAspectRatio="xMidYMid meet"
           className="w-full h-full"
         >
@@ -68,18 +68,18 @@ const KnowledgeMatrix: React.FC = () => {
 
           {/* Center Title Text */}
           <g className="pointer-events-none" textAnchor="middle" dominantBaseline="central">
-            <text x="0" y="-30" fill="white" fontSize="120" fontWeight="bold" fontFamily="monospace" letterSpacing="12">
+            <text x="0" y="-40" fill="white" fontSize="160" fontWeight="bold" fontFamily="monospace" letterSpacing="12">
               SKILLS
             </text>
             <AnimatePresence mode="wait">
               {activeSegment && (
                 <motion.text
                   key={activeSegment.id}
-                  initial={{ opacity: 0, y: 60 }}
-                  animate={{ opacity: 1, y: 90 }}
-                  exit={{ opacity: 0, y: 60 }}
+                  initial={{ opacity: 0, y: 80 }}
+                  animate={{ opacity: 1, y: 120 }}
+                  exit={{ opacity: 0, y: 80 }}
                   fill={activeSegment.color}
-                  fontSize="60"
+                  fontSize="80"
                   fontFamily="monospace"
                   letterSpacing="8"
                 >
@@ -89,21 +89,27 @@ const KnowledgeMatrix: React.FC = () => {
             </AnimatePresence>
           </g>
 
-          {/* Dynamic Nodes Sub-Tree */}
-          <AnimatePresence>
-            {activeSegment && (
+          {/* Render ALL branches permanently to fill the void, but dim inactive ones */}
+          {DOMAINS.map((domain, index) => {
+            const angle = index * (2 * Math.PI / DOMAINS.length) + (Math.PI / DOMAINS.length);
+            const trunkX = Math.cos(angle) * (RADIUS + STROKE_WIDTH / 2);
+            const trunkY = Math.sin(angle) * (RADIUS + STROKE_WIDTH / 2);
+            const isActive = activeDomainId === domain.id;
+
+            return (
               <MatrixNode
-                key={activeSegment.id}
-                domainId={activeSegment.id}
+                key={domain.id}
+                domainId={domain.id}
                 allNodes={skillNodes}
                 setHoveredNodeId={setHoveredNodeId}
-                trunkX={activeSegment.trunkX}
-                trunkY={activeSegment.trunkY}
-                centerAngle={activeSegment.centerAngle}
-                color={activeSegment.color || '#00FFB3'}
+                trunkX={trunkX}
+                trunkY={trunkY}
+                centerAngle={angle}
+                color={domain.color || '#00FFB3'}
+                isActive={isActive}
               />
-            )}
-          </AnimatePresence>
+            );
+          })}
         </svg>
       </div>
 

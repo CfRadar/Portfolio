@@ -394,6 +394,18 @@ export const skillNodes: SkillNodeData[] = [
     experience: '1 Year'
   },
   {
+    id: 'unreal-engine-5',
+    parentId: 'game-dev',
+    label: 'Unreal Engine 5',
+    size: 'small',
+    description: 'Next-gen game development with Nanite and Lumen systems.',
+    category: 'Engine',
+    technologies: ['Blueprints', 'C++'],
+    projects: [],
+    learningStatus: 'Learning',
+    experience: '<1 Year'
+  },
+  {
     id: 'physics',
     parentId: 'unity',
     label: 'Game Physics',

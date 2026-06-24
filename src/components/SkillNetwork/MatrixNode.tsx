@@ -10,6 +10,7 @@ interface MatrixNodeProps {
   trunkY: number;
   centerAngle: number;
   color: string;
+  isActive: boolean;
 }
 
 interface PlacedNode {
@@ -22,7 +23,7 @@ interface PlacedNode {
 }
 
 const MatrixNode: React.FC<MatrixNodeProps> = ({ 
-  domainId, allNodes, setHoveredNodeId, trunkX, trunkY, centerAngle, color 
+  domainId, allNodes, setHoveredNodeId, trunkX, trunkY, centerAngle, color, isActive
 }) => {
   
   const { placedNodes, connections } = useMemo(() => {
@@ -50,7 +51,7 @@ const MatrixNode: React.FC<MatrixNodeProps> = ({
 
       const angleStep = children.length === 1 ? 0 : spreadAngle / (children.length - 1);
       const startAngle = baseAngle - spreadAngle / 2;
-      const radiusDist = 800; // Massively increased for true fullscreen sprawling spread
+      const baseRadiusDist = 800; 
 
       children.forEach((child, index) => {
         // Deterministic pseudo-random tilt between -15 and +15 degrees for organic feel
@@ -60,15 +61,19 @@ const MatrixNode: React.FC<MatrixNodeProps> = ({
         const baseAngleForChild = children.length === 1 ? baseAngle : startAngle + angleStep * index;
         let finalAngle = baseAngleForChild + randomTilt;
 
+        // Elliptical Expansion: Branches shooting left/right get up to 60% MORE distance 
+        // than branches shooting up/down. This naturally fills the 16:9 widescreen layout!
+        const ellipticalMultiplier = 1 + 0.6 * Math.abs(Math.cos(finalAngle));
+        const radiusDist = baseRadiusDist * ellipticalMultiplier;
+
         let x = parentX + Math.cos(finalAngle) * radiusDist;
         let y = parentY + Math.sin(finalAngle) * radiusDist;
 
         // --- INTELLIGENT BOUNDARY COLLISION STEERING ---
-        // SVG ViewBox is [-3000, 3000]. We enforce a safe zone of [-2600, 2600]
-        // If a node threatens to cross the boundary, it iteratively steers its trajectory 
-        // back towards the center of the screen!
+        // SVG ViewBox is [-4500, -3000] to [4500, 3000]. 
+        // We enforce a widescreen safe zone of [-4000, 4000] horizontal and [-2600, 2600] vertical.
         let attempt = 0;
-        while ((Math.abs(x) > 2600 || Math.abs(y) > 2600) && attempt < 25) {
+        while ((Math.abs(x) > 4000 || Math.abs(y) > 2600) && attempt < 25) {
           // Find the angle pointing straight back to the absolute center (0,0) from the parent
           const angleToOrigin = Math.atan2(-parentY, -parentX);
           
@@ -122,11 +127,11 @@ const MatrixNode: React.FC<MatrixNodeProps> = ({
           x2={conn.endX}
           y2={conn.endY}
           stroke={color}
-          strokeWidth="12"
-          strokeOpacity="0.4"
+          strokeWidth={isActive ? "12" : "3"}
+          strokeOpacity={isActive ? 0.4 : 0.05}
           initial={{ pathLength: 0 }}
           animate={{ pathLength: 1 }}
-          transition={{ delay: conn.delay, duration: 0.4, ease: "easeOut" }}
+          transition={{ delay: conn.delay, duration: 0.8, ease: "easeOut" }}
           className="pointer-events-none"
         />
       ))}
@@ -136,13 +141,13 @@ const MatrixNode: React.FC<MatrixNodeProps> = ({
         <motion.g
           key={p.node.id}
           initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: p.delay, duration: 0.3, type: 'spring', bounce: 0.5 }}
+          animate={{ scale: isActive ? 1 : 0.6, opacity: isActive ? 1 : 0.15 }}
+          transition={{ duration: 0.4, type: 'spring', bounce: 0.3 }}
           onMouseEnter={() => setHoveredNodeId(p.node.id)}
           onMouseLeave={() => setHoveredNodeId(null)}
-          className="cursor-pointer"
+          className={`cursor-pointer ${!isActive && 'pointer-events-none'}`}
           style={{ transformOrigin: `${p.x}px ${p.y}px` }}
-          whileHover={{ scale: 1.15, filter: `drop-shadow(0 0 15px ${color})` }}
+          whileHover={isActive ? { scale: 1.15, filter: `drop-shadow(0 0 15px ${color})` } : {}}
         >
           {/* Node Circle (Massively increased size) */}
           <circle 
@@ -150,38 +155,40 @@ const MatrixNode: React.FC<MatrixNodeProps> = ({
             r={140} 
             fill="#03050c" 
             stroke={color} 
-            strokeWidth="15"
+            strokeWidth={isActive ? "15" : "5"}
           />
           
           {/* Inner Node Graphic */}
-          {p.node.icon ? (
+          {p.node.icon && isActive ? (
             <text 
               x={p.x} y={p.y} 
               textAnchor="middle" 
               dominantBaseline="central" 
               fill="white" 
-              fontSize="120"
+              fontSize="180"
             >
               {p.node.icon}
             </text>
           ) : (
-            <circle cx={p.x} cy={p.y} r={25} fill={color} />
+            <circle cx={p.x} cy={p.y} r={25} fill={color} opacity={isActive ? 1 : 0.2} />
           )}
 
           {/* External Label positioned below the node */}
-          <text 
-            x={p.x} 
-            y={p.y + 240} 
+          {isActive && (
+            <text 
+              x={p.x} 
+              y={p.y + 280} 
             textAnchor="middle" 
             fill="white" 
-            fontSize="60" 
+            fontSize="100" 
             fontWeight="bold" 
             fontFamily="monospace"
             letterSpacing="2"
-            className="pointer-events-none drop-shadow-[0_0_10px_rgba(0,0,0,0.9)]"
-          >
-            {p.node.label.toUpperCase()}
-          </text>
+              className="pointer-events-none drop-shadow-[0_0_10px_rgba(0,0,0,0.9)]"
+            >
+              {p.node.label.toUpperCase()}
+            </text>
+          )}
         </motion.g>
       ))}
     </>
