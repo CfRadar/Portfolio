@@ -2,6 +2,7 @@ import AnimatedBackground from './components/AnimatedBackground';
 import HeroSection from './components/Hero/HeroSection';
 import ProjectNetwork from './components/ProjectNetwork/ProjectNetwork';
 import SkillNetwork from './components/SkillNetwork';
+import LanguageTicker from './components/SkillNetwork/LanguageTicker';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <HeroSection />
         <ProjectNetwork />
         <SkillNetwork />
+        <LanguageTicker />
       </div>
     </>
   );
