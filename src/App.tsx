@@ -3,6 +3,7 @@ import HeroSection from './components/Hero/HeroSection';
 import ProjectNetwork from './components/ProjectNetwork/ProjectNetwork';
 import SkillNetwork from './components/SkillNetwork';
 import LanguageTicker from './components/SkillNetwork/LanguageTicker';
+import ContactSection from './components/Contact/ContactSection';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <ProjectNetwork />
         <SkillNetwork />
         <LanguageTicker />
+        <ContactSection />
       </div>
     </>
   );
