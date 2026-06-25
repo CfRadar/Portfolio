@@ -4,6 +4,7 @@ import ProjectNetwork from './components/ProjectNetwork/ProjectNetwork';
 import SkillNetwork from './components/SkillNetwork';
 import LanguageTicker from './components/SkillNetwork/LanguageTicker';
 import ContactSection from './components/Contact/ContactSection';
+import Footer from './components/Footer/Footer';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <SkillNetwork />
         <LanguageTicker />
         <ContactSection />
+        <Footer />
       </div>
     </>
   );
