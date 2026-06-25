@@ -35,33 +35,6 @@ const AmbientGlow = () => {
   );
 };
 
-const PerspectiveGrid = () => {
-  return (
-    <div
-      className="absolute inset-0 pointer-events-none flex items-end justify-center overflow-hidden"
-      style={{ perspective: '800px' }}
-    >
-      <div className="absolute inset-0 bg-gradient-to-t from-[#050816]/0 via-[#050816]/80 to-[#050816] z-10" />
-      <motion.div
-        className="absolute bottom-[-30%] w-[200vw] h-[150vh] origin-bottom"
-        style={{
-          rotateX: '75deg',
-          backgroundImage: `
-            radial-gradient(circle at 0 0, rgba(0, 255, 179, 0.8) 1.5px, transparent 2px),
-            linear-gradient(to right, rgba(0, 255, 179, 0.15) 1px, transparent 1px),
-            linear-gradient(to top, rgba(0, 255, 179, 0.15) 1px, transparent 1px)
-          `,
-          backgroundSize: '50px 50px',
-          backgroundPosition: '0 0, 0 0, 0 0',
-        }}
-        animate={{
-          backgroundPosition: ['0px 0px, 0px 0px, 0px 0px', '0px 50px, 0px 50px, 0px 50px']
-        }}
-        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-      />
-    </div>
-  );
-};
 
 const DataStreams = () => {
   // Use a fixed set of random values so it doesn't change on re-render
